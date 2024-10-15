@@ -1,10 +1,11 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
 
 def versionMajor = 1
-def versionMinor = 3
-def versionPatch = 1
+def versionMinor = 4
+def versionPatch = 2
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
 android {
@@ -36,7 +37,16 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
 
-    implementation 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
-    implementation 'com.afollestad.material-dialogs:core:0.8.5.9'
-    implementation 'com.github.aakira:expandable-layout:1.4.3@aar'
+    implementation 'org.kohsuke:github-api:1.318'
+    implementation 'com.github.AAkira:ExpandableLayout:v1.5.0@aar'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.findByName('release')
+            }
+        }
+    }
 }
